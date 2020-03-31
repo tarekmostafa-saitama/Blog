@@ -1,0 +1,50 @@
+﻿@using System.Collections
+@using Blog.Core.DbEntities
+
+
+@{
+    ViewData["Title"] = "CategoryManagement";
+}
+
+    <div class="row">
+        <form role="form" asp-controller="Category" asp-action="Add" method="post">
+            <fieldset>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Category Name" name="Name" id="Name" autofocus>
+                </div>
+
+                <!-- Change this to a button or input when using this as a form -->
+                <button type="submit" class="btn btn-lg btn-success btn-block">Add Category</button>
+            </fieldset>
+          
+        </form>
+    </div>
+<br/><br/>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#Id</th>
+            <th>#Category Name</th>
+            <th>#Category Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!((IEnumerable<Category>) ViewBag.Categories).Any())
+        {
+            <tr>
+                <td colspan="3">
+                    <h2 class="text-center text-info">No Categories Available.</h2>
+                </td>
+            </tr>
+        }
+        @foreach (var category in (IEnumerable<Category>)ViewBag.Categories)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+                <td>@category.Date.ToShortDateString()</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

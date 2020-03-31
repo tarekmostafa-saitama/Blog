@@ -7,5 +7,6 @@ namespace Blog.Core.DbEntities
 {
     public class Logger
     {
+        public int Id { get; set; }
     }
 }

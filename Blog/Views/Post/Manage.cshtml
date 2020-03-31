@@ -1,0 +1,83 @@
+﻿@using Blog.Core.DbEntities
+
+@{
+    ViewData["Title"] = "Manage";
+}
+@section Styles{
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 400px;
+        }
+    </style>
+}
+<div class="form-group">
+    <input class="form-control" placeholder="Title" id="title" autofocus>
+</div>
+<div class="form-group">
+    <select id="categoryId" class="form-control">
+        @foreach (var category in (IEnumerable<Category>)ViewBag.Categories)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+</div>
+<textarea rows="10" id="postBody"></textarea>
+<button class="btn btn-lg btn-success btn-block" id="performAction">Perform Action</button>
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+    <script>
+        let title = document.querySelector("#title");
+        let categoryid = document.querySelector("#categoryId");
+
+        let editor;
+        ClassicEditor
+            .create(document.querySelector('#postBody')).then(createdEditor => {
+                editor = createdEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        document.querySelector("#performAction").addEventListener("click",
+            function() {
+                let operation = 'test';
+                let id = 0;
+                let formData = new FormData();
+                formData.append("Title", title.value);
+                formData.append("Body", editor.getData());
+                formData.append("categoryId", categoryid.value);
+                postData(`http://localhost:20088/Post/Manage/${operation}/${id}`,
+                        formData)
+                    .then((data) => {
+                        console.log(data); // JSON data parsed by `response.json()` call
+                    });
+            });
+
+
+        // Example POST method implementation:
+        async function postData(url, formData ) {
+            // Default options are marked with *
+            const response = await fetch(url,
+                {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                 //   mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                   // credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        //'Content-Type': 'application/json'
+                         //'Content-Type': 'application/x-www-form-urlencoded',
+                         //'Content-Type': 'multipart/form-data'
+                        
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *client
+                    body: formData // body data type must match "Content-Type" header
+                });
+            return await response.json(); // parses JSON response into native JavaScript objects
+        }
+
+
+    </script>
+
+}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blog.Core.DbEntities;
+using Blog.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Persistence.Repositories

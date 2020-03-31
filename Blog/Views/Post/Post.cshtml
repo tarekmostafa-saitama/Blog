@@ -1,0 +1,72 @@
+﻿@model Blog.Core.DbEntities.Post
+@{
+    ViewData["Title"] = "Post";
+}
+
+
+
+<!-- Blog Post -->
+<!-- Title -->
+<h1>@Model.Title</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-1 col-md-push-10">
+            <form asp-controller="Post" asp-action="Delete" method="post">
+                <input type="hidden" value="@Model.Id" name="id" id="id"/>
+                <button type="submit" class="btn btn-danger">Delete Post</button>
+            </form>
+        </div>
+    </div>
+}
+    <!-- Author -->
+    @*<p class="lead">
+            by <a href="#">Start Bootstrap</a>
+        </p>*@
+
+    <hr>
+
+    <!-- Date/Time -->
+    <p><span class="glyphicon glyphicon-time"></span> Posted on @Model.Date.ToShortDateString()</p>
+
+    <hr>
+
+    <!-- Preview Image -->
+    <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+
+    <hr>
+
+    <!-- Post Content -->
+    <p>@Html.Raw(Model.Body)</p>
+
+    <hr>
+
+    <!-- Blog Comments -->
+    <!-- Comments Form -->
+    <div class="well">
+        <h4>Leave a Comment:</h4>
+        <form role="form" asp-controller="Post" asp-action="Comment" method="post">
+            <div class="form-group">
+                <input type="hidden" name="postId" id="postId" value="@Model.Id"/>
+                <textarea class="form-control" name="commentData" id="commentData" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <!-- Posted Comments -->
+    @if (!Model.Comments.Any())
+        {
+            <h2 class="text-center text-info">No Comments Available.</h2>
+        }
+        @foreach (var comment in Model.Comments)
+        {
+            @await Html.PartialAsync("_CommentPartial", comment)
+        }
+
+
+
+
+

@@ -1,0 +1,26 @@
+﻿@model Blog.Core.DbEntities.Post
+<h2>
+    <a asp-controller="Post" asp-action="Post" asp-route-id="@Model.Id">@Model.Title</a>
+</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-1 col-md-push-10">
+            <form asp-controller="Post" asp-action="Delete" method="post">
+                <input type="hidden" value="@Model.Id" name="id" id="id" />
+                <button type="submit" class="btn btn-danger">Delete Post</button>
+            </form>
+        </div>
+    </div>
+}
+@*<p class="lead">
+        by <a href="index.php">Start Bootstrap</a>
+    </p>*@
+<p><span class="glyphicon glyphicon-time"></span> Posted on @Model.Date.ToShortDateString()</p>
+<hr>
+<img class="img-responsive" src="http://placehold.it/900x300" alt="">
+<hr>
+<p>@Html.Raw(Model.Body.Substring(0, 100))</p>
+<a class="btn btn-primary" asp-controller="Post" asp-action="Post" asp-route-id="@Model.Id">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+<hr>

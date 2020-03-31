@@ -1,0 +1,26 @@
+﻿@model Blog.Core.DbEntities.Comment
+
+    <div class="media">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-md-1 col-md-push-9">
+                    <form asp-controller="Post" asp-action="DeleteComment" method="post">
+                        <input type="hidden" value="@Model.Id" name="commentId" id="commentId"/>
+                        <input type="hidden" value="@Model.PostId" name="postId" id="postId" />
+                        <button type="submit" class="btn btn-danger">Delete Comment</button>
+                    </form>
+                </div>
+            </div>
+        }
+        <a class="pull-left" href="#">
+            <img class="media-object" src="http://placehold.it/64x64" alt="">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">
+                Start Bootstrap
+                <small>@Model.Date.ToShortDateString()</small>
+            </h4>
+            @Model.Content
+        </div>
+    </div>

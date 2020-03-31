@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Blog.Core.DbEntities.Post>
+@{
+    ViewData["Title"] = "Category";
+}
+
+<h1 class="page-header">
+    Blog Posts
+    <small>Category Page</small>
+</h1>
+
+@if (!Model.Any())
+{
+    <h2 class="text-center text-info">No Posts Available.</h2>
+}
+
+@foreach (var post in Model)
+{
+    @await Html.PartialAsync("_PostPartial", post)
+}
+
+<!-- Pager -->
+@*<ul class="pager">
+        <li class="previous">
+            <a href="#">&larr; Older</a>
+        </li>
+        <li class="next">
+            <a href="#">Newer &rarr;</a>
+        </li>
+    </ul>*@
